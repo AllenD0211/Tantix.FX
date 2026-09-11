@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { LoginPage } from './pages/LoginPage';
-import { DashboardPage } from './pages/DashboardPage';
+import { Login } from './pages/Login';
+import { Dashboard } from './pages/Dashboard';
 import { Footer } from './components/layout/Footer';
 import type { UserSession } from './types/auth';
 import './App.css';
@@ -25,13 +25,13 @@ export function App() {
   return (
     <div className="min-h-screen flex flex-col justify-between bg-[var(--neu-bg)] text-[var(--neu-text-primary)] forex-bg-grid transition-colors duration-200">
       {!session ? (
-        <LoginPage
+        <Login
           onLoginSuccess={setSession}
           theme={theme}
           onToggleTheme={toggleTheme}
         />
       ) : (
-        <DashboardPage
+        <Dashboard
           session={session}
           onSignOut={() => setSession(null)}
           theme={theme}
