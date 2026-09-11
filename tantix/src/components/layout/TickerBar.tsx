@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TrendingUp, TrendingDown, Sun, Moon, Wifi } from 'lucide-react';
+import { TrendingUp, TrendingDown, Wifi } from 'lucide-react';
 import type { TickerItem } from '../../types/market';
 
 const INITIAL_PAIRS: TickerItem[] = [
@@ -11,20 +11,13 @@ const INITIAL_PAIRS: TickerItem[] = [
   { symbol: 'USD/CAD', bid: 1.38210, ask: 1.38224, change: 0.05, isPositive: true, spread: 1.4, digits: 5 },
 ];
 
-interface TickerBarProps {
-  theme: 'dark' | 'light';
-  onToggleTheme: () => void;
-}
-
-export const TickerBar: React.FC<TickerBarProps> = ({ theme, onToggleTheme }) => {
+export const TickerBar: React.FC = () => {
   const [pairs, setPairs] = useState<TickerItem[]>(INITIAL_PAIRS);
   const [updatedSymbol, setUpdatedSymbol] = useState<string | null>(null);
 
-  // Subtle live tick simulation for the dashboard
   useEffect(() => {
     const interval = setInterval(() => {
       setPairs((prev) => {
-        // Pick one pair to subtly update
         const targetIndex = Math.floor(Math.random() * prev.length);
         const item = prev[targetIndex];
         const delta = (Math.random() - 0.48) * (item.symbol === 'XAU/USD' ? 0.35 : 0.00008);
@@ -47,10 +40,9 @@ export const TickerBar: React.FC<TickerBarProps> = ({ theme, onToggleTheme }) =>
   }, []);
 
   return (
-    <header className="w-full border-b border-[var(--neu-border-subtle)] bg-[var(--neu-bg)]/90 backdrop-blur-md px-4 sm:px-6 py-2.5 transition-colors duration-200">
-      <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-        {/* Left: Feed Status */}
-        <div className="flex items-center gap-2.5">
+    <div className="w-full neu-raised-card px-3 sm:px-4 py-2.5 border border-[var(--neu-border-subtle)]">
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex items-center gap-2.5 shrink-0">
           <div className="neu-inset px-2.5 py-1 rounded-lg flex items-center gap-2">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-emerald)] opacity-70" />
@@ -67,8 +59,7 @@ export const TickerBar: React.FC<TickerBarProps> = ({ theme, onToggleTheme }) =>
           </div>
         </div>
 
-        {/* Center: Live Forex Quotes Marquee */}
-        <div className="flex items-center gap-2.5 overflow-x-auto py-0.5 text-xs scrollbar-none">
+        <div className="flex items-center gap-2.5 overflow-x-auto py-0.5 text-xs scrollbar-none min-w-0 flex-1">
           {pairs.map((pair) => {
             const isFlashing = updatedSymbol === pair.symbol;
             return (
@@ -105,30 +96,7 @@ export const TickerBar: React.FC<TickerBarProps> = ({ theme, onToggleTheme }) =>
             );
           })}
         </div>
-
-        {/* Right: Theme Toggle */}
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={onToggleTheme}
-            aria-label="Toggle Theme"
-            className="neu-btn px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-xs font-medium text-[var(--neu-text-secondary)] hover:text-[var(--accent-cyan)] cursor-pointer"
-            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
-          >
-            {theme === 'dark' ? (
-              <>
-                <Sun className="w-3.5 h-3.5 text-[var(--accent-amber)]" />
-                <span className="text-[11px] hidden md:inline">Light</span>
-              </>
-            ) : (
-              <>
-                <Moon className="w-3.5 h-3.5 text-[var(--accent-cyan)]" />
-                <span className="text-[11px] hidden md:inline">Dark</span>
-              </>
-            )}
-          </button>
-        </div>
       </div>
-    </header>
+    </div>
   );
 };

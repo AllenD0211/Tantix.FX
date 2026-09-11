@@ -53,7 +53,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   return (
     <div className="flex-1 flex flex-col justify-between relative">
       {/* Topside Realtime Currency Ticker (Only rendered inside the Dashboard!) */}
-      <TickerBar theme={theme} onToggleTheme={onToggleTheme} />
+      <TickerBar />
 
       {/* Main Trading Terminal Canvas */}
       <div className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 space-y-5 animate-fadeIn">
